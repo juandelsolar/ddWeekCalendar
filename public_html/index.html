@@ -1,0 +1,23 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript" src="js/libs/jquery-1.8.0/jquery.js"></script>
+        <script type="text/javascript" src="js/libs/ddWeekCalendar/ddWeekCalendar.js"></script>
+        <script type="text/javascript" src="js/libs/ddWeekCalendar/datejs/build/date-es-CL.js"></script>
+        <script>
+            $(document).ready(function() {
+                var calendar = new ddWeekCalendar('12-11-2012', '17-11-2012', '08:00', '20:00', 5);
+                calendar.draw('calendar');
+            });
+        </script>
+    </head>
+    <body>
+        <div id="calendar"></div>
+    </body>
+</html>
