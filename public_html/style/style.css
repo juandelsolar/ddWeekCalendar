@@ -9,23 +9,25 @@
 root { 
     display: block;
 }
+
 body {
     /*background: #8BB6DE;*/
 }
 
 #calendar {
     border: 1px solid #93ADDF;
-    
     color: #fff;
     font-family: Helvetica;
     font-weight: bold;
     font-size: 12px;
     background: #8BB6DE;
+    text-align: center;
 }
 
 /*Espacio en blanco horas*/
 .thCalendar {
     background: #8BB6DE;
+    width: 35px;
 }
 
 /*Dias de la semana*/
@@ -35,7 +37,7 @@ body {
 
 /*HOras paciente*/
 .tdCalendar2 {
-    background: #ccc;
+    /*background: #ccc;*/
     /*border: 1px solid #8BB6DE;*/
 }
 
@@ -48,4 +50,5 @@ body {
 .tableCalendar{
     border: 0px solid #93ADDF;
     border-collapse: collapse;
+    width: 100%;
 }
