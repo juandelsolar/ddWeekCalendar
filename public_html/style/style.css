@@ -1,0 +1,51 @@
+/* 
+    Document   : style
+    Created on : 16-11-2012, 05:01:43 PM
+    Author     : diana
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+body {
+    /*background: #8BB6DE;*/
+}
+
+#calendar {
+    border: 1px solid #93ADDF;
+    
+    color: #fff;
+    font-family: Helvetica;
+    font-weight: bold;
+    font-size: 12px;
+    background: #8BB6DE;
+}
+
+/*Espacio en blanco horas*/
+.thCalendar {
+    background: #8BB6DE;
+}
+
+/*Dias de la semana*/
+.tdCalendar {
+    background: #8BB6DE;
+}
+
+/*HOras paciente*/
+.tdCalendar2 {
+    background: #ccc;
+    /*border: 1px solid #8BB6DE;*/
+}
+
+/*Horas*/
+.trCalendar {
+    background: #8BB6DE;
+    padding: 0px;
+    border: 0px;
+}
+.tableCalendar{
+    border: 0px solid #93ADDF;
+    border-collapse: collapse;
+}

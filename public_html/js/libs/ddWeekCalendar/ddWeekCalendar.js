@@ -7,18 +7,18 @@ function ddWeekCalendar(iDate, eDate, iTime, eTime, frequency)
         var ed = Date.parse(eDate);
         var tCursor = Date.parse(iTime);
         var et = Date.parse(eTime);
-        html='<table><th><td>-</td>';
+        html='<table class="tableCalendar"><th class="thCalendar">';
         while(dCursor<=ed) {
-            html+='<td>'+this.dateToString(dCursor, "ddd d MMM")+'</td>';
+            html+='<td class="tdCalendar">'+this.dateToString(dCursor, "ddd d MMM")+'</td>';
             dCursor.add(1).days();
         }
         html+='</th>';
         while(tCursor<=et) {
             dCursor = Date.parse(iDate);
-            html+='<tr>';
+            html+='<tr class="trCalendar">';
             html+='<td>'+this.timeToString(tCursor)+'</td>';
             while(dCursor<=ed) {
-                html+='<td id="'+this.dateToString(dCursor, "dd-MM-yyyy")+'_'+this.timeToString(tCursor)+'"></td>';
+                html+='<td class="tdCalendar2" id="'+this.dateToString(dCursor, "dd-MM-yyyy")+'_'+this.timeToString(tCursor)+'"></td>';
                 dCursor.add(1).days();
             }
             html+='</tr>';
