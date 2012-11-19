@@ -7,11 +7,14 @@ function ddWeekCalendar(iDate, eDate, iTime, eTime, frequency)
         var ed = Date.parse(eDate);
         var tCursor = Date.parse(iTime);
         var et = Date.parse(eTime);
-        html='<table class="tableCalendar"><th class="thCalendar">';
+        html='<table class="tableDay">';
         while(dCursor<=ed) {
             html+='<td class="tdCalendar">'+this.dateToString(dCursor, "ddd d MMM")+'</td>';
             dCursor.add(1).days();
         }
+        html+='</table>';
+        
+        html+='<table class="tableCalendar"><th class="thCalendar">';
         html+='</th>';
         while(tCursor<=et) {
             dCursor = Date.parse(iDate);

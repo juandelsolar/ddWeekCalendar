@@ -10,10 +10,6 @@ root {
     display: block;
 }
 
-body {
-    /*background: #8BB6DE;*/
-}
-
 #calendar {
     border: 1px solid #93ADDF;
     color: #fff;
@@ -23,30 +19,44 @@ body {
     background: #8BB6DE;
     text-align: center;
 }
+/*TABLA PARA LOS DIAS DE LA SEMANA*/
+.tableDay {
+    background: #76A2CB;
+    position: fixed;
+    display: block;
+    width: 99%;
+    border: 0px solid #93ADDF;
+    border-collapse: collapse;
+    opacity: 0.8;
+}
+
+/*Dias de la semana - estatico*/ 
+.tdCalendar {
+    /*background: #76A2CB;*/
+    border-left: 1px solid #6F90AF;
+    width: 18%;
+}
 
 /*Espacio en blanco horas*/
 .thCalendar {
-    background: #8BB6DE;
+    background: #76A2CB;
     width: 35px;
+    padding-top: 16px;
 }
 
-/*Dias de la semana*/
-.tdCalendar {
-    background: #8BB6DE;
-}
 
-/*HOras paciente*/
+/*Horas paciente*/
 .tdCalendar2 {
-    /*background: #ccc;*/
-    /*border: 1px solid #8BB6DE;*/
+    border: 1px solid #6F90AF;
 }
 
 /*Horas*/
 .trCalendar {
     background: #8BB6DE;
     padding: 0px;
-    border: 0px;
+    border: 1px solid #6F90AF;
 }
+
 .tableCalendar{
     border: 0px solid #93ADDF;
     border-collapse: collapse;
