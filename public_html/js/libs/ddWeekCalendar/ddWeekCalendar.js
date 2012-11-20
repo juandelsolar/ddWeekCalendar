@@ -1,5 +1,6 @@
-function ddWeekCalendar(iDate, eDate, iTime, eTime, frequency)
+function ddWeekCalendar(iDate, eDate, iTime, eTime, freq)
 {
+    this.frecuency = freq;
     this.htmlCalendar = function() 
     {
         var html;
@@ -9,7 +10,7 @@ function ddWeekCalendar(iDate, eDate, iTime, eTime, frequency)
         var et = Date.parse(eTime);
         html='<table class="tableDay">';
         while(dCursor<=ed) {
-            html+='<td class="tdCalendar">'+this.dateToString(dCursor, "ddd d MMM")+'</td>';
+            html+='<td class="tdCalendar">'+dateToString(dCursor, "ddd d MMM")+'</td>';
             dCursor.add(1).days();
         }
         html+='</table>';
@@ -19,13 +20,13 @@ function ddWeekCalendar(iDate, eDate, iTime, eTime, frequency)
         while(tCursor<=et) {
             dCursor = Date.parse(iDate);
             html+='<tr class="trCalendar">';
-            html+='<td>'+this.timeToString(tCursor)+'</td>';
+            html+='<td>'+timeToString(tCursor)+'</td>';
             while(dCursor<=ed) {
-                html+='<td class="tdCalendar2" id="'+this.dateToString(dCursor, "dd-MM-yyyy")+'_'+this.timeToString(tCursor)+'"></td>';
+                html+='<td class="tdCalendar2" id="'+dateToString(dCursor, "dd-MM-yyyy")+'_'+timeToString(tCursor)+'"></td>';
                 dCursor.add(1).days();
             }
             html+='</tr>';
-            tCursor.add(frequency).minutes();
+            tCursor.add(this.frecuency).minutes();
         }
         html+='</table>';
         return html;
@@ -36,11 +37,25 @@ function ddWeekCalendar(iDate, eDate, iTime, eTime, frequency)
         document.getElementById(id).innerHTML = this.htmlCalendar();
     };
 
-    this.dateToString = function(date, format)
+    this.addSchedule = function(day, from, to, color, name){
+        var tCursor = Date.parse(from);
+        var et = Date.parse(to);
+        color = color || '#eeffee';
+        while(tCursor<=et) {
+            id = day+'_'+timeToString(tCursor);
+            document.getElementById(id).bgColor = color;
+            if(name) {
+                document.getElementById(id).title = name;
+            }
+            tCursor.add(this.frecuency).minutes();
+        }
+    };
+
+    dateToString = function(date, format)
     {
         return (new Date(date).toString(format));
     };
-    this.timeToString = function(date)
+    timeToString = function(date)
     {
         return (new Date(date).toString("HH:mm"));
     };

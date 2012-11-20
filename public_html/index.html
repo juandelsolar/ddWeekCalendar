@@ -12,6 +12,10 @@
             $(document).ready(function() {
                 var calendar = new ddWeekCalendar('12-11-2012', '17-11-2012', '08:00', '20:00', 5);
                 calendar.draw('calendar');
+                
+                /* test cases */
+                calendar.addSchedule('13-11-2012', '09:00', '13:00', '#ffeeff', 'Doctor Del Solar')
+                calendar.addSchedule('15-11-2012', '13:00', '15:30', '#f00', 'Doctora Zuniga')
             });
         </script>
     </head>
