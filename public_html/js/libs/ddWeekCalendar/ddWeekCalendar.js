@@ -40,6 +40,7 @@ function ddWeekCalendar(iDate, eDate, iTime, eTime, freq)
     this.addSchedule = function(day, from, to, color, name){
         var tCursor = Date.parse(from);
         var et = Date.parse(to);
+        var id;
         color = color || '#eeffee';
         while(tCursor<=et) {
             id = day+'_'+timeToString(tCursor);
@@ -49,6 +50,21 @@ function ddWeekCalendar(iDate, eDate, iTime, eTime, freq)
             }
             tCursor.add(this.frecuency).minutes();
         }
+    };
+    
+    this.addEvent = function(day, time, idEvent, duration, text)
+    {
+        var tCursor = Date.parse(time);
+        var id = day+'_'+time;
+        var spaces = (duration/this.frecuency)-1;
+        document.getElementById(id).innerHTML = '<div class="eventHeader">'+text+'</div>';
+        for(var i=1;i<=spaces;i++) {
+            tCursor.add(this.frecuency).minutes();
+            id = day+'_'+timeToString(tCursor);
+            document.getElementById(id).innerHTML = '<div class="eventMiddle">&nbsp;</div>';
+        }
+        tCursor.add(this.frecuency).minutes();
+        document.getElementById(id).innerHTML = '<div class="eventEnd">&nbsp;</div>';
     };
 
     dateToString = function(date, format)
