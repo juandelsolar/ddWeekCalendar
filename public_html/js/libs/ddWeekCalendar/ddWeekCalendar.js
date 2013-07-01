@@ -1,21 +1,14 @@
-function ddWeekCalendar(iDate, eDate, iTime, eTime, freq)
-{
+function ddWeekCalendar(iDate, eDate, iTime, eTime, freq) {
     this.frecuency = freq;
-    this.htmlCalendar = function() 
-    {
-        var html;
-        var dCursor = Date.parse(iDate);
-        var ed = Date.parse(eDate);
-        var tCursor = Date.parse(iTime);
-        var et = Date.parse(eTime);
-        html='<table class="tableDay">';
-        while(dCursor<=ed) {
-            html+='<td class="tdCalendar">'+dateToString(dCursor, "ddd d MMM")+'</td>';
+    this.htmlCalendar = function() {
+        var html, dCursor = Date.parse(iDate), ed = Date.parse(eDate), tCursor = Date.parse(iTime), et = Date.parse(eTime);
+        html = '<table class="tableDay">';
+        while (dCursor <= ed) {
+            html += '<td class="tdCalendar">' + dateToString(dCursor, "ddd d MMM") + '</td>';
             dCursor.add(1).days();
         }
-        html+='</table>';
-        
-        html+='<table class="tableCalendar"><th class="thCalendar">';
+        html += '</table>';
+        html += '<table class="tableCalendar"><th class="thCalendar">';
         html+='</th>';
         while(tCursor<=et) {
             dCursor = Date.parse(iDate);
