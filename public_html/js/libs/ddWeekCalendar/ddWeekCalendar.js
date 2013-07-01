@@ -1,5 +1,6 @@
 function ddWeekCalendar(iDate, eDate, iTime, eTime, freq)
 {
+    //probando git en sublime text 2 
     this.frecuency = freq;
     this.htmlCalendar = function() 
     {
