@@ -56,15 +56,16 @@ function ddWeekCalendar(iDate, eDate, iTime, eTime, freq)
     {
         var tCursor = Date.parse(time);
         var id = day+'_'+time;
-        var spaces = (duration/this.frecuency)-1;
+        var spaces = (duration/this.frecuency);
+        document.getElementById(id).rowSpan = spaces;
         document.getElementById(id).innerHTML = '<div class="eventHeader">'+text+'</div>';
-        for(var i=1;i<=spaces;i++) {
+        for(var i=1;i<=spaces-1;i++) {
             tCursor.add(this.frecuency).minutes();
             id = day+'_'+timeToString(tCursor);
-            document.getElementById(id).innerHTML = '<div class="eventMiddle">&nbsp;</div>';
+            document.getElementById(id).style.display = 'none';
         }
         tCursor.add(this.frecuency).minutes();
-        document.getElementById(id).innerHTML = '<div class="eventEnd">&nbsp;</div>';
+        //document.getElementById(id).innerHTML = '<div class="eventEnd">&nbsp;</div>';
     };
 
     dateToString = function(date, format)
