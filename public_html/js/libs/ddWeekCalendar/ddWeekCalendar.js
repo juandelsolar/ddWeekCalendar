@@ -1,6 +1,3 @@
-/**
-* Probandooooo
-**/
 function ddWeekCalendar(iDate, eDate, iTime, eTime, freq) {
     this.frecuency = freq;
     this.htmlCalendar = function() {
