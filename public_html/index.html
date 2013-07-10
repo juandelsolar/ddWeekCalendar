@@ -12,8 +12,12 @@
         <link href="style/style.css" rel="stylesheet" type="text/css"/>
 	<link rel="SHORTCUT ICON" href="image/favicon.ico">
         <script>
+        /**
+         * Probando
+         * @return {[type]} [description]
+         */
             $(document).ready(function() {
-                var isDragging = false;
+                //var isDragging = false;
                 var calendar = new ddWeekCalendar('12-11-2012', '17-11-2012', '08:00', '20:00', 5);
                 calendar.draw('calendar');
                 /* test cases */
@@ -23,13 +27,11 @@
                 REDIPS.drag.init();
                 $(".drag")
                 .mousedown(function(e){
-                    //id = e.currentTarget.id;
                     idEvent = e.target.offsetParent.id;
                     var nEvent = idEvent.split("_");
                     var dateEvent = nEvent[0];
                     var hourEvent = nEvent[1];
                     eventSpan = document.getElementById(idEvent).rowSpan;
-                    //console.log(document.getElementById(id).rowSpan);
                     $(window).mousemove(function() {
                         isDragging = true;
                         $(window).unbind("mousemove");
@@ -39,17 +41,9 @@
                         var hour = n[1];
                         var duration = eventSpan * 5;
                         document.getElementById(idEvent).rowSpan = 1;
-                        calendar.updateEvent(date, hour, 20, duration, 'Event', dateEvent)
+                        calendar.updateEvent(date, hour, 2, duration, 'Event', idEvent)
                         console.log(duration);
                     });
-
-                })
-                .mouseup(function(e){
-                    var wasDragging = isDragging;
-                    isDragging = false;
-                    $(window).unbind("mousemove");
-                    //id = e.currentTarget.id;
-                    id = e.target.offsetParent.id;
                 });
             });
         </script>
