@@ -49,32 +49,14 @@ function ddWeekCalendar(iDate, eDate, iTime, eTime, freq) {
         var tCursor = Date.parse(time);
         var id = day+'_'+time;
         var spaces = (duration/this.frecuency);
-        document.getElementById(id).rowSpan = spaces;
-        document.getElementById(id).innerHTML = '<div id="'+idEvent+'" class="drag">'+text+'</div>';
+        h = (spaces - 1) * 20;
+        document.getElementById(id).innerHTML = '<div id="'+idEvent+'" class="drag" style="height:'+h+'px; width: 300px; position: absolute; border-style: solid; cursor: move;">'+text+'</div>';
         for(var i=1;i<=spaces-1;i++) {
             tCursor.add(this.frecuency).minutes();
             id = day+'_'+timeToString(tCursor);
-            document.getElementById(id).style.display = 'none';
         }
         tCursor.add(this.frecuency).minutes();
-        //document.getElementById(id).innerHTML = '<div class="eventEnd">&nbsp;</div>';
     };
-    this.updateEvent = function(day, time, idEvent, duration, text, lastTime)
-    {
-        var tCursor = Date.parse(time);
-        var id = day+'_'+time;
-        var spaces = (duration/this.frecuency);
-        document.getElementById(id).rowSpan = spaces;
-        document.getElementById(id).innerHTML = '<div id="'+idEvent+'" class="drag">'+text+'</div>';
-        for(var i=1;i<=spaces-1;i++) {
-            tCursor.add(this.frecuency).minutes();
-            id = day+'_'+timeToString(tCursor);
-            document.getElementById(id).style.display = 'none';
-        }
-        tCursor.add(this.frecuency).minutes();
-        //document.getElementById(id).innerHTML = '<div class="eventEnd">&nbsp;</div>';
-    };
-
     dateToString = function(date, format)
     {
         return (new Date(date).toString(format));
