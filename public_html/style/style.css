@@ -90,3 +90,20 @@ Events objects
     background: #D7D7D7;
     height: 100%;
 }
+/* drag objects (DIV inside table cells) */
+.drag {
+    position: absolute;
+    cursor: move;
+    margin: 2px auto;
+    z-index: 10;
+    background-color: #6C6714;
+    text-align: center;
+    /* round corners for FF, Chrome, Safari (except IE) */
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    /* shadow for FF, Chrome, Safari (except IE)*/
+    -moz-box-shadow: 4px 4px 8px #444;
+    -webkit-box-shadow: 4px 4px 8px #444;
+    box-shadow: 4px 4px 8px #444;
+}

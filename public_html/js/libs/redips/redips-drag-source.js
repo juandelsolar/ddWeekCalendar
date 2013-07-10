@@ -189,7 +189,9 @@ REDIPS.drag = (function () {
 				clonedEnd2 : function () {},
 				dblClicked : function () {},
 				deleted : function () {},
-				dropped : function () {},
+				dropped : function () {
+					console.log(event.target.offsetParent.id);
+				},
 				droppedBefore : function () {},
 				finish : function () {},
 				moved : function () {},
