@@ -44,12 +44,26 @@ function ddWeekCalendar(iDate, eDate, iTime, eTime, freq) {
             tCursor.add(this.frecuency).minutes();
         }
     };
-    
     this.addEvent = function(day, time, idEvent, duration, text)
     {
         var tCursor = Date.parse(time);
         var id = day+'_'+time;
-        var spaces = (duration/this.frecuency)
+        var spaces = (duration/this.frecuency);
+        document.getElementById(id).rowSpan = spaces;
+        document.getElementById(id).innerHTML = '<div id="'+idEvent+'" class="drag">'+text+'</div>';
+        for(var i=1;i<=spaces-1;i++) {
+            tCursor.add(this.frecuency).minutes();
+            id = day+'_'+timeToString(tCursor);
+            document.getElementById(id).style.display = 'none';
+        }
+        tCursor.add(this.frecuency).minutes();
+        //document.getElementById(id).innerHTML = '<div class="eventEnd">&nbsp;</div>';
+    };
+    this.updateEvent = function(day, time, idEvent, duration, text, lastTime)
+    {
+        var tCursor = Date.parse(time);
+        var id = day+'_'+time;
+        var spaces = (duration/this.frecuency);
         document.getElementById(id).rowSpan = spaces;
         document.getElementById(id).innerHTML = '<div id="'+idEvent+'" class="drag">'+text+'</div>';
         for(var i=1;i<=spaces-1;i++) {
