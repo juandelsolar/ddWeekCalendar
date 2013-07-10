@@ -24,14 +24,14 @@
                 calendar.addSchedule('13-11-2012', '09:00', '13:00', '#ffeeff', 'Doctor Del Solar')
                 calendar.addSchedule('15-11-2012', '13:00', '15:30', '#f00', 'Doctora Zuniga')
                 calendar.addEvent('12-11-2012', '10:00', 1, 30, 'Event')
+                calendar.addEvent('12-11-2012', '10:40', 2, 40, 'Event')
                 REDIPS.drag.init();
                 $(".drag")
                 .mousedown(function(e){
-                    idEvent = e.target.offsetParent.id;
+                    var idEvent = e.target.offsetParent.id;
                     var nEvent = idEvent.split("_");
                     var dateEvent = nEvent[0];
                     var hourEvent = nEvent[1];
-                    eventSpan = document.getElementById(idEvent).rowSpan;
                     $(window).mousemove(function() {
                         isDragging = true;
                         $(window).unbind("mousemove");
@@ -39,12 +39,11 @@
                         var n = id.split("_");
                         var date = n[0];
                         var hour = n[1];
-                        var duration = eventSpan * 5;
-                        document.getElementById(idEvent).rowSpan = 1;
-                        calendar.updateEvent(date, hour, 2, duration, 'Event', idEvent)
-                        console.log(duration);
+                        newId = e.srcElement.id;
+                        h = document.getElementById(newId).style.height;
+                        document.getElementById(id).innerHTML = '<div id="'+newId+'" class="drag" style="height:'+h+'; width: 300px; position: absolute; border-style: solid; cursor: move;">Event</div>';
                     });
-                });
+                })
             });
         </script>
     </head>
