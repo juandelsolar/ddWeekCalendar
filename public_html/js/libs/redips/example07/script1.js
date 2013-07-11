@@ -20,6 +20,7 @@ redips.init = function () {
 	rd.dropMode = 'single';
 	// define A and B source elements for the last row only (element ID and class name of the last row)
 	rd.only.div.a = 'last';
+	console.log(rd.only.div);
 	rd.only.div.b = 'last';
 	// A and B elements can't be placed to other table cells (this is default value)
 	rd.only.other = 'deny';

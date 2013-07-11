@@ -18,6 +18,7 @@ root {
     font-size: 12px;
     background: #8BB6DE;
     text-align: center;
+    border-collapse: collapse;
 }
 /*TABLA PARA LOS DIAS DE LA SEMANA*/
 .tableDay {
@@ -94,7 +95,6 @@ Events objects
 .drag {
     position: absolute;
     cursor: move;
-    margin: 2px auto;
     z-index: 10;
     background-color: #6C6714;
     text-align: center;

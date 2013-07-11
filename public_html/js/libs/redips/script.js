@@ -11,73 +11,86 @@ var redipsInit;
 // redips initialization
 redipsInit = function () {
 	// reference to the REDIPS.drag library and message line
-	var	rd = REDIPS.drag,
-		msg = document.getElementById('message');
+	var	rd = REDIPS.drag;
+
+	var msg = document.getElementById('message');
 	// how to display disabled elements
 	rd.style.borderDisabled = 'solid';	// border style for disabled element will not be changed (default is dotted)
 	rd.style.opacityDisabled = 60;		// disabled elements will have opacity effect
 	// initialization
 	rd.init();
 	// only "smile" can be placed to the marked cell
-	rd.mark.exception.d8 = 'smile';
+	rd.dropMode = 'single';
+	td = 'tdCalendar2';
+	REDIPS.drag.enableDrag(false, td)
+	//rd.enableDrag(false, rd.obj);
+	//rd.mark.exception.d8 = 'smile';
 	// prepare handlers
 	rd.event.clicked = function () {
-		msg.innerHTML = 'Clicked';
+		////msg.innerHTML = 'Clicked';
 	};
 	rd.event.dblClicked = function () {
-		msg.innerHTML = 'Dblclicked';
+		//msg.innerHTML = 'Dblclicked';
 	};
 	rd.event.moved  = function () {
-		msg.innerHTML = 'Moved';
+		//msg.innerHTML = 'Moved';
 	};
 	rd.event.notMoved = function () {
-		msg.innerHTML = 'Not moved';
+		//msg.innerHTML = 'Not moved';
 	};
 	rd.event.dropped = function () {
-		msg.innerHTML = 'Dropped';
+		//msg.innerHTML = 'Dropped';
 		var	objOld = rd.event,					// original object
 			targetCell = rd.td.target,			// target cell
 			targetRow = targetCell.parentNode,	// target row
 			objNew, idEvent = targetCell.id;
-			console.log(idEvent);
+			var id = event.srcElement.id;
+			document.getElementById(id).style.opacity = '1';
+			// REDIPS.drag.td.previous			// Posicion previa
+			
+			console.log(REDIPS.drag);
+			
 	};
 	rd.event.switched = function () {
-		msg.innerHTML = 'Switched';
+		//msg.innerHTML = 'Switched';
 	};
 	rd.event.clonedEnd1 = function () {
-		msg.innerHTML = 'Cloned end1';
+		//msg.innerHTML = 'Cloned end1';
 	};
 	rd.event.clonedEnd2 = function () {
 		msg.innerHTML = 'Cloned end2';
 	};
 	rd.event.notCloned = function () {
-		msg.innerHTML = 'Not cloned';
+		//msg.innerHTML = 'Not cloned';
 	};
 	rd.event.deleted = function (cloned) {
 		// if cloned element is directly moved to the trash
 		if (cloned) {
 			// set id of original element (read from redips property)
 			// var id_original = rd.obj.redips.id_original;
-			msg.innerHTML = 'Deleted (c)';
+			//msg.innerHTML = 'Deleted (c)';
 		}
 		else {
-			msg.innerHTML = 'Deleted';
+			//msg.innerHTML = 'Deleted';
 		}
 	};
 	rd.event.undeleted = function () {
-		msg.innerHTML = 'Undeleted';
+		//msg.innerHTML = 'Undeleted';
 	};
 	rd.event.cloned = function () {
 		// display message
-		msg.innerHTML = 'Cloned';
+		//msg.innerHTML = 'Cloned';
 		// append 'd' to the element text (Clone -> Cloned)
 		rd.obj.innerHTML += 'd';
 	};
 	rd.event.changed = function () {
 		// get target and source position (method returns positions as array)
 		var pos = rd.getPosition();
+		var id = event.srcElement.id;
+		document.getElementById(id).style.opacity = '0.4';
 		// display current row and current cell
-		msg.innerHTML = 'Changed: ' + pos[1] + ' ' + pos[2];
+		//msg.innerHTML = event.srcElement.id;
+		//msg.innerHTML = 'Changed: ' + pos[1] + ' ' + pos[2];
 	};
 };
 
