@@ -63,7 +63,11 @@ root {
     border-collapse: collapse;
     width: 100%;
 }
-
+.tableCalendar  tr:hover td
+{
+    background:#CFDFFE;
+    cursor:pointer; 
+}
 /*
 Events objects
 */
