@@ -21,8 +21,6 @@ redipsInit = function () {
 	rd.init();
 	// only "smile" can be placed to the marked cell
 	rd.dropMode = 'single';
-	td = 'tdCalendar2';
-	REDIPS.drag.enableDrag(false, td)
 	//rd.enableDrag(false, rd.obj);
 	//rd.mark.exception.d8 = 'smile';
 	// prepare handlers
@@ -88,9 +86,6 @@ redipsInit = function () {
 		var pos = rd.getPosition();
 		var id = event.srcElement.id;
 		document.getElementById(id).style.opacity = '0.4';
-		// display current row and current cell
-		//msg.innerHTML = event.srcElement.id;
-		//msg.innerHTML = 'Changed: ' + pos[1] + ' ' + pos[2];
 	};
 };
 
