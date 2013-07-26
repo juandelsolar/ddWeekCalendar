@@ -13,7 +13,7 @@ function ddWeekCalendar(iDate, eDate, iTime, eTime, freq) {
         while(tCursor<=et) {
             dCursor = Date.parse(iDate);
             html+='<tr class="trCalendar">';
-            html+='<td>'+timeToString(tCursor)+'</td>';
+            html+='<td id ="'+timeToString(tCursor)+'">'+timeToString(tCursor)+'</td>';
             while(dCursor<=ed) {
                 html+='<td class="tdCalendar2" id="'+dateToString(dCursor, "dd-MM-yyyy")+'_'+timeToString(tCursor)+'"></td>';
                 dCursor.add(1).days();

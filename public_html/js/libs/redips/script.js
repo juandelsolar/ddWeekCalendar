@@ -19,6 +19,7 @@ redipsInit = function () {
 	rd.style.opacityDisabled = 60;		// disabled elements will have opacity effect
 	// initialization
 	rd.init();
+	REDIPS.drag.hover.colorTr = 'red';
 	// only "smile" can be placed to the marked cell
 	rd.dropMode = 'single';
 	//rd.enableDrag(false, rd.obj);
@@ -44,9 +45,11 @@ redipsInit = function () {
 			objNew, idEvent = targetCell.id;
 			var id = event.srcElement.id;
 			document.getElementById(id).style.opacity = '1';
-			// REDIPS.drag.td.previous			// Posicion previa
-			
-			console.log(REDIPS.drag);
+			rd.td.current.parentElement.style.background ='#8BB6DE';
+			// Al posicionar el objeto en su posicion final, se restaura el color del TD que indica la hora en la cual se arrastra
+			var date = rd.td.current.id;
+			var day = date.split("_");
+			document.getElementById(day[1]).style.background = '#8BB6DE';
 			
 	};
 	rd.event.switched = function () {
@@ -56,36 +59,37 @@ redipsInit = function () {
 		//msg.innerHTML = 'Cloned end1';
 	};
 	rd.event.clonedEnd2 = function () {
-		msg.innerHTML = 'Cloned end2';
+		//msg.innerHTML = 'Cloned end2';
 	};
 	rd.event.notCloned = function () {
 		//msg.innerHTML = 'Not cloned';
 	};
 	rd.event.deleted = function (cloned) {
-		// if cloned element is directly moved to the trash
 		if (cloned) {
-			// set id of original element (read from redips property)
-			// var id_original = rd.obj.redips.id_original;
-			//msg.innerHTML = 'Deleted (c)';
 		}
 		else {
-			//msg.innerHTML = 'Deleted';
 		}
 	};
 	rd.event.undeleted = function () {
-		//msg.innerHTML = 'Undeleted';
 	};
 	rd.event.cloned = function () {
-		// display message
-		//msg.innerHTML = 'Cloned';
-		// append 'd' to the element text (Clone -> Cloned)
 		rd.obj.innerHTML += 'd';
 	};
 	rd.event.changed = function () {
 		// get target and source position (method returns positions as array)
 		var pos = rd.getPosition();
-		var id = event.srcElement.id;
-		document.getElementById(id).style.opacity = '0.4';
+		var id2 = event.target.id;
+		document.getElementById(id2).style.opacity = '0.4'; // Transparencia al mover objeto
+
+		// Ilumina TD con la hora donde se esta arrastrando
+		var date = rd.td.current.id;
+		var day = date.split("_");
+		document.getElementById(day[1]).style.background = '#CFDFFE';
+
+		// Devuelve el color despues de pasar sobre la hora
+		var dateP = rd.td.previous.id;
+		var dayP = dateP.split("_");
+		document.getElementById(dayP[1]).style.background = '#8BB6DE';
 	};
 };
 
