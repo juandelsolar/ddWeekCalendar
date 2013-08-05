@@ -30,6 +30,15 @@ root {
     border-collapse: collapse;
     opacity: 0.8;
 }
+.Taskbar {
+    background: #76A2CB;
+    position: fixed;
+    display: block;
+    width: 99%;
+    border: 0px solid #93ADDF;
+    border-collapse: collapse;
+    opacity: 0.8;
+}
 
 /*Dias de la semana - estatico*/ 
 .tdCalendar {

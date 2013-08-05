@@ -3,29 +3,70 @@
     <head>
         <title></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script type="text/javascript" src="js/libs/jquery-1.8.0/jquery.js"></script>
+        <script type="text/javascript" src="js/libs/jquery-1.8.0/jquery9.1.js"></script>
+        <script type="text/javascript" src="js/libs/tool/jquery-1.8.1.min.js"></script>
         <script type="text/javascript" src="js/libs/ddWeekCalendar/ddWeekCalendar.js"></script>
         <script type="text/javascript" src="js/libs/ddWeekCalendar/datejs/build/date-es-CL.js"></script>
         <script type="text/javascript" src="js/libs/redips/redips-drag-min.js"></script>
-        <script type="text/javascript" src="js/libs/redips/script.js"></script>
         <link href="style/style.css" rel="stylesheet" type="text/css"/>
+        <script type="text/javascript" src="js/libs/bootstrap/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript" src="js/libs/tool/jquery-ui.js"></script>
+        <script type="text/javascript" src="js/libs/tool/jquery.window.js"></script>
+        <link rel="stylesheet" href="js/libs/tool/jquery/themes/base/jquery-ui.css" type="text/css" media="screen">
+        <link rel="stylesheet" href="js/libs/bootstrap/css/bootstrap.min.css" type="text/css" media="screen">
+        <link rel="stylesheet" href="js/libs/tool/jwindow/jquery.window.css" type="text/css" media="screen">
+        <script type="text/javascript" src="js/libs/redips/script.js"></script>
+
+
+
+
 	<link rel="SHORTCUT ICON" href="image/favicon.ico"> 
         <script>
         /**
          * Probando
          * @return {[type]} [description]
          */
-            $(document).ready(function() {
-                //var isDragging = false;
+            $(document).ready(function(e) {
                 var calendar = new ddWeekCalendar('12-11-2012', '17-11-2012', '08:00', '20:00', 5);
                 calendar.draw('calendar');
+                $(".tdCalendar2").click(function(e) {
+                    if(e.srcElement.innerHTML == "")
+                    {
+                        windows();
+                    }
+                });
                 /* test cases */
                 calendar.addSchedule('13-11-2012', '09:00', '13:00', '#ffeeff', 'Doctor Del Solar')
                 calendar.addSchedule('15-11-2012', '13:00', '15:30', '#f00', 'Doctora Zuniga')
-                calendar.addEvent('12-11-2012', '10:00', 1, 30, 'Event')
+                calendar.addEvent('12-11-2012', '10:00', 'hola', 30, 'Event')
                 calendar.addEvent('12-11-2012', '10:40', 2, 20, 'Event')
                 calendar.addEvent('12-11-2012', '11:20', 'd8', 20, 'Event')
             });
+            
+            function windows() {
+            $.window.prepare({
+                dock: 'right',       // change the dock direction: 'left', 'right', 'top', 'bottom'
+                dockArea: $(".tdCalendar"), // set the dock area
+                animationSpeed: 200,  // set animation speed
+                minWinLong: 180,
+                minWinNarrow: 24, //the narrow dimension of minimized window
+                showLog: true,
+            });
+            $.window({
+                    title: "Insertar Agenda",
+                    url: "test.html",
+                    iframeRedirectCheckMsg: "Insertar Agenda",
+                    bookmarkable: false,
+                    x: 500,               
+                    y: 350,               
+                    height: 365,
+                    width: 650,
+                    minWidth: 640,
+                    showFooter: false,
+                    showRoundCorner: true,
+                });
+            };
         </script>
     </head>
     <body>

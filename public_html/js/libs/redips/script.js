@@ -21,19 +21,30 @@ redipsInit = function () {
 	rd.init();
 	REDIPS.drag.hover.colorTr = 'red';
 	// only "smile" can be placed to the marked cell
+	//rd.enableDrag(false, '#drag div')     Permite desactivar el DRAG de los elementos con clase #drag
 	rd.dropMode = 'single';
+	REDIPS.drag.only.div.a1 = 'last';
 	//rd.enableDrag(false, rd.obj);
 	//rd.mark.exception.d8 = 'smile';
 	// prepare handlers
 	rd.event.clicked = function () {
 		////msg.innerHTML = 'Clicked';
+		$(function (e) {
+                    $('.drag').popover({
+                    title: 'Test',
+                    content: 'Hello Popover',
+                    placement: 'top'
+                });
+        });
 	};
 	rd.event.dblClicked = function () {
 		//msg.innerHTML = 'Dblclicked';
+		console.log('Doble Click');
 	};
 	rd.event.moved  = function () {
 		//msg.innerHTML = 'Moved';
 	};
+
 	rd.event.notMoved = function () {
 		//msg.innerHTML = 'Not moved';
 	};

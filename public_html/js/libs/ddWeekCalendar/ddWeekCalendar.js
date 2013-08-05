@@ -22,6 +22,7 @@ function ddWeekCalendar(iDate, eDate, iTime, eTime, freq) {
             tCursor.add(this.frecuency).minutes();
         }
         html+='</table>';
+        html+='<div class="Taskbar" id="Taskbar"></div>';
         return html;
     };
     
@@ -54,6 +55,8 @@ function ddWeekCalendar(iDate, eDate, iTime, eTime, freq) {
         for(var i=1;i<=spaces-1;i++) {
             tCursor.add(this.frecuency).minutes();
             id = day+'_'+timeToString(tCursor);
+            document.getElementById(id).className='only last';
+            console.log(document.getElementById(id));
         }
         tCursor.add(this.frecuency).minutes();
     };
