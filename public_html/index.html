@@ -18,13 +18,15 @@
         <script type="text/javascript" src="js/libs/redips/script.js"></script>
         <script src="js/libs/jquerycm/jquery.contextMenu.js" type="text/javascript" charset="utf-8"></script>
         <link href="js/libs/jquerycm/jquery.contextMenu.css" rel="stylesheet" type="text/css"/>
-	<link rel="SHORTCUT ICON" href="image/favicon.ico"> 
+    <link rel="SHORTCUT ICON" href="image/favicon.ico"> 
         <script>
 
          var fechaId = 0; //TEMPORAL, indica fecha inicial
+         fecha_inicial='03-09-2013';
+         fecha_final='07-09-2013';
          var OldObject, estado = "indefinido";
         $(document).ready(function(e) {
-            var calendar = new ddWeekCalendar('03-09-2013', '07-09-2013', '08:00', '20:00', 5);
+            var calendar = new ddWeekCalendar(fecha_inicial, fecha_final, '08:00', '20:00', 5);
             calendar.draw('calendar');
             $(".tdCalendar2").click(function(e) {
                 if(e.srcElement.innerHTML == "")
@@ -50,16 +52,16 @@
             menu_contextual();
 
         });
-            REDIPS.drag.enableDrag('init');
+           /* REDIPS.drag.enableDrag('init');
             var fecha_hora = elem.srcElement.id.split("_");
             console.log(fecha_hora[0].split("-").join("/"));
-            /* test cases */
+            /* test cases 
             calendar.addSchedule('13-11-2012', '09:00', '13:00', '#ffeeff', 'Doctor Del Solar')
             calendar.addSchedule('15-11-2012', '13:00', '15:30', '#f00', 'Doctora Zuniga')
             calendar.addEvent('12-11-2012', '10:00', 'hola', 30, 'Event')
             calendar.addEvent('12-11-2012', '10:40', 2, 20, 'Event')
             calendar.addEvent('12-11-2012', '11:20', 'd8', 20, 'Event')
-            });
+            });*/
             
             function windows() {
             $.window.prepare({
@@ -81,9 +83,10 @@
                     y: 60,               
                     height: 500,
                     width: 670,
-                    windows();
+                    
                     }
-                });
+                );
+        }
             function showButton(boton){ //TEMPORAL función que "mueve" los botones de cambio de semana
                 if (boton.style.opacity==1){
 
@@ -154,8 +157,8 @@
             }
             ajax.open("POST", "/../ucm/inc/searchCalendar.php", true);
             ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            ajax.send();
-            //ajax.send("rut=1");     
+            //ajax.send();
+            ajax.send("date1="+fecha_inicial+"&date2="+fecha_final);     
         }
 
 
@@ -241,7 +244,7 @@ function menu_contextual(){
                         },
                         klass: "menu-item-1" // a custom css class for this menu item (usable for styling)
                     }
-                });
+                });}
         </script>
     </head>
     <body>
