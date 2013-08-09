@@ -10,76 +10,58 @@
         <script type="text/javascript" src="js/libs/redips/redips-drag-min.js"></script>
         <link href="style/style.css" rel="stylesheet" type="text/css"/>
         <script type="text/javascript" src="js/libs/bootstrap/js/bootstrap.min.js"></script>
-
         <script type="text/javascript" src="js/libs/tool/jquery-ui.js"></script>
         <script type="text/javascript" src="js/libs/tool/jquery.window.js"></script>
         <link rel="stylesheet" href="js/libs/tool/jquery/themes/base/jquery-ui.css" type="text/css" media="screen">
         <link rel="stylesheet" href="js/libs/bootstrap/css/bootstrap.min.css" type="text/css" media="screen">
         <link rel="stylesheet" href="js/libs/tool/jwindow/jquery.window.css" type="text/css" media="screen">
         <script type="text/javascript" src="js/libs/redips/script.js"></script>
-
         <script src="js/libs/jquerycm/jquery.contextMenu.js" type="text/javascript" charset="utf-8"></script>
         <link href="js/libs/jquerycm/jquery.contextMenu.css" rel="stylesheet" type="text/css"/>
-
-
 	<link rel="SHORTCUT ICON" href="image/favicon.ico"> 
         <script>
-        /**
-         * Probando
-         * @return {[type]} [description]
-         */
-         //var fecha_agendamiento;
 
          var fechaId = 0; //TEMPORAL, indica fecha inicial
          var OldObject, estado = "indefinido";
-         LoadCalendar(fechaId);
-
-
-         function LoadCalendar(fecha){
-
-            $(document).ready(function(e) {
-                
-                fechaId += fecha;
-                var fecha_inicial = showDate(fechaId);
-                var fecha_final = showDate(fechaId+5);
-
-                var calendar = new ddWeekCalendar('03-09-2013', '07-09-2013', '08:00', '20:00', 5);
-                calendar.draw('calendar');
-                $(".tdCalendar2").click(function(e) {
-                    if(e.srcElement.innerHTML == "")
-                    {
-                        windows(e);
-                    }
-                });
-
-                cargar_agendamiento();
-
-                /* test cases */
-                calendar.addSchedule('06-09-2013', '09:00', '13:00', '#ffeeff', 'Doctor Del Solar')
-                calendar.addSchedule('06-09-2013', '13:00', '15:30', '#f00', 'Doctora Zuniga')
-                calendar.addEvent('06-09-2013', '10:00', 'hola', 30, 'Event')
-                calendar.addEvent('06-09-2013', '10:40', 2, 20, 'Event')
-                calendar.addEvent('06-09-2013', '11:20', 'd8', 20, 'Event')
-                //calendar.addEvent(fecha_agendamiento, '11:20', 'c3', 20, 'Event')
-
-                $("#hola").fadeIn(700);
-                $("#2").fadeIn(1400);
-                $("#d8").fadeIn(2100);
-
-                menu_contextual();
-
+        $(document).ready(function(e) {
+            var calendar = new ddWeekCalendar('03-09-2013', '07-09-2013', '08:00', '20:00', 5);
+            calendar.draw('calendar');
+            $(".tdCalendar2").click(function(e) {
+                if(e.srcElement.innerHTML == "")
+                {
+                    windows(e);
+                }
             });
+
+            cargar_agendamiento();
+
+            /* test cases */
+            calendar.addSchedule('06-09-2013', '09:00', '13:00', '#ffeeff', 'Doctor Del Solar')
+            calendar.addSchedule('06-09-2013', '13:00', '15:30', '#f00', 'Doctora Zuniga')
+            calendar.addEvent('06-09-2013', '10:00', 'hola', 30, 'Event')
+            calendar.addEvent('06-09-2013', '10:40', 2, 20, 'Event')
+            calendar.addEvent('06-09-2013', '11:20', 'd8', 20, 'Event')
+            //calendar.addEvent(fecha_agendamiento, '11:20', 'c3', 20, 'Event')
+
+            $("#hola").fadeIn(700);
+            $("#2").fadeIn(1400);
+            $("#d8").fadeIn(2100);
+
+            menu_contextual();
+
+        });
             REDIPS.drag.enableDrag('init');
-
-        };
+            var fecha_hora = elem.srcElement.id.split("_");
+            console.log(fecha_hora[0].split("-").join("/"));
+            /* test cases */
+            calendar.addSchedule('13-11-2012', '09:00', '13:00', '#ffeeff', 'Doctor Del Solar')
+            calendar.addSchedule('15-11-2012', '13:00', '15:30', '#f00', 'Doctora Zuniga')
+            calendar.addEvent('12-11-2012', '10:00', 'hola', 30, 'Event')
+            calendar.addEvent('12-11-2012', '10:40', 2, 20, 'Event')
+            calendar.addEvent('12-11-2012', '11:20', 'd8', 20, 'Event')
+            });
             
-
-            function windows(elem) {
-
-                var fecha_hora = elem.srcElement.id.split("_");
-                console.log(fecha_hora[0].split("-").join("/"));
-
-
+            function windows() {
             $.window.prepare({
                 dock: 'right',       // change the dock direction: 'left', 'right', 'top', 'bottom'
                 dockArea: $(".tdCalendar"), // set the dock area
@@ -99,15 +81,10 @@
                     y: 60,               
                     height: 500,
                     width: 670,
-                    minWidth: 640,
-                    showFooter: false,
-                    showRoundCorner: true,
+                    windows();
+                    }
                 });
-
-            };
-
             function showButton(boton){ //TEMPORAL función que "mueve" los botones de cambio de semana
-
                 if (boton.style.opacity==1){
 
                     boton.style.opacity=0.4;
@@ -264,13 +241,13 @@ function menu_contextual(){
                         },
                         klass: "menu-item-1" // a custom css class for this menu item (usable for styling)
                     }
-                });}
+                });
         </script>
     </head>
     <body>
         <div id="drag">
             <!--<div class="buttons" style="display: block;">-->
-                <button id="boton1" class="button" onmouseover="showButton(this)" onmouseout="showButton(this)" onclick="LoadCalendar(-7)" style="left: -25px;"><<</button>
+                <button id="boton1" class="button" onmouseover="showButton(this)" onmouseout="showButton(this)" onclick="LoadCalendar(-7)" style="left: -25px;">--</button>
                 <button id="boton2" class="button" onmouseover="showButton(this)" onmouseout="showButton(this)" onclick="LoadCalendar(7)" style="right: -25px;">>></button>
             <!--</div>-->
             <div id="calendar"></div>
