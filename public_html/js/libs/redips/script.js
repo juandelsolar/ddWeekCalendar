@@ -33,19 +33,24 @@ redipsInit = function () {
 	//rd.enableDrag(false, rd.obj);
 	//rd.mark.exception.d8 = 'smile';
 	// prepare handlers
-	rd.event.clicked = function () {
+	rd.event.clicked = function (e) {
+		console.log(e);
 		////msg.innerHTML = 'Clicked';
-		$(function (e) {
+		$(function () {
                     $('.drag').popover({
-                    title: 'Test',
+                    title: 'Detalles Agenda',
                     content: 'Hello Popover',
                     placement: 'top'
                 });
         });
-	};
-	rd.event.dblClicked = function () {
-		//msg.innerHTML = 'Dblclicked';
-		console.log('Doble Click');
+		rd.event.dblClicked = function () {
+			//windowsUpdate("245454");
+			windowsUpdate(e.children[0].id);
+			//msg.innerHTML = 'Dblclicked';
+			//http://localhost/ucm/inc/modules/calendar/editFromCalendar.php?id=245454&type=edit
+			//windowsUpdate();
+		};
+		
 	};
 	rd.event.moved  = function () {
 		//msg.innerHTML = 'Moved';
@@ -67,6 +72,7 @@ redipsInit = function () {
 			var date = rd.td.current.id;
 			var day = date.split("_");
 			document.getElementById(day[1]).style.background = '#8BB6DE';
+			updateCalendar(id, day[0], day[1]);
 			
 	};
 	rd.event.switched = function () {

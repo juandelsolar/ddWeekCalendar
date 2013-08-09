@@ -12,7 +12,7 @@
         <script type="text/javascript" src="js/libs/bootstrap/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/libs/tool/jquery-ui.js"></script>
         <script type="text/javascript" src="js/libs/tool/jquery.window.js"></script>
-        <link rel="stylesheet" href="js/libs/tool/jquery/themes/base/jquery-ui.css" type="text/css" media="screen">
+        <link rel="stylesheet" href="js/libs/tool/jquery/themes/eggplant/jquery-ui.css" type="text/css" media="screen">
         <link rel="stylesheet" href="js/libs/bootstrap/css/bootstrap.min.css" type="text/css" media="screen">
         <link rel="stylesheet" href="js/libs/tool/jwindow/jquery.window.css" type="text/css" media="screen">
         <script type="text/javascript" src="js/libs/redips/script.js"></script>
@@ -35,8 +35,7 @@
                 }
             });
 
-            cargar_agendamiento();
-
+            load_calendar();
             /* test cases */
             calendar.addSchedule('06-09-2013', '09:00', '13:00', '#ffeeff', 'Doctor Del Solar')
             calendar.addSchedule('06-09-2013', '13:00', '15:30', '#f00', 'Doctora Zuniga')
@@ -52,33 +51,30 @@
             menu_contextual();
 
         });
-           /* REDIPS.drag.enableDrag('init');
-            var fecha_hora = elem.srcElement.id.split("_");
-            console.log(fecha_hora[0].split("-").join("/"));
-            /* test cases 
-            calendar.addSchedule('13-11-2012', '09:00', '13:00', '#ffeeff', 'Doctor Del Solar')
-            calendar.addSchedule('15-11-2012', '13:00', '15:30', '#f00', 'Doctora Zuniga')
-            calendar.addEvent('12-11-2012', '10:00', 'hola', 30, 'Event')
-            calendar.addEvent('12-11-2012', '10:40', 2, 20, 'Event')
-            calendar.addEvent('12-11-2012', '11:20', 'd8', 20, 'Event')
-            });*/
-            
-            function windows() {
+            function windows(elem) {
+                var fecha_hora = elem.srcElement.id.split("_");
             $.window.prepare({
                 dock: 'right',       // change the dock direction: 'left', 'right', 'top', 'bottom'
                 dockArea: $(".tdCalendar"), // set the dock area
                 animationSpeed: 200,  // set animation speed
                 minWinLong: 180,
-                minWinNarrow: 24, //the narrow dimension of minimized window
+                minWinNarrow: 100, //the narrow dimension of minimized window
                 showLog: true,
             });
             $.window({
                     title: "Insertar Agenda",
                     //url: "/../ucm/inc/modules/calendar/calendarForm.php?room=38&obj=2013/08/06-10:20-88",
-                    url: "/../ucm/inc/modules/calendar/calendarForm.php?room=38&obj="+fecha_hora[0].split("-").join("/")+"-"+fecha_hora[1]+"-88",
+                    url: "/../ucm/inc/modules/calendar/calendarForm.php?room=21&obj="+fecha_hora[0].split("-").join("/")+"-"+fecha_hora[1]+"-88",
                     //url: "/../newbioris/inc/modules/calendar/calendarForm.php",
                     iframeRedirectCheckMsg: "Insertar Agenda",
                     bookmarkable: false,
+                    showFooter: true,
+                    showRoundCorner: true,
+                    footerContent: "http://www.digitaldev.org",
+                    onClose: function(wnd) { // a callback function while user click close button
+                        console.log(wnd);
+                        //location.reload();
+                    },
                     x: 350,               
                     y: 60,               
                     height: 500,
@@ -86,7 +82,37 @@
                     
                     }
                 );
-        }
+            }
+            function windowsUpdate(id) {
+            $.window.prepare({
+                dock: 'right',       // change the dock direction: 'left', 'right', 'top', 'bottom'
+                dockArea: $(".tdCalendar"), // set the dock area
+                animationSpeed: 200,  // set animation speed
+                minWinLong: 180,
+                minWinNarrow: 100, //the narrow dimension of minimized window
+                showLog: true,
+            });
+            $.window({
+                    title: "Insertar Agenda",
+                    //url: "/../ucm/inc/modules/calendar/calendarForm.php?room=38&obj=2013/08/06-10:20-88",
+                    url: "/../ucm/inc/modules/calendar/editFromCalendar.php?id="+id+"&type=edit",
+                    //url: "/../newbioris/inc/modules/calendar/calendarForm.php",
+                    iframeRedirectCheckMsg: "Insertar Agenda",
+                    bookmarkable: false,
+                    showFooter: true,
+                    showRoundCorner: true,
+                    footerContent: "http://www.digitaldev.org",
+                    onClose: function(wnd) { // a callback function while user click close button
+                        location.reload();
+                    },
+                    x: 350,               
+                    y: 60,               
+                    height: 700,
+                    width: 800,
+                    
+                    }
+                );
+            }
             function showButton(boton){ //TEMPORAL función que "mueve" los botones de cambio de semana
                 if (boton.style.opacity==1){
 
@@ -107,10 +133,48 @@
                 }
                 
             }
+            function updateCalendar (id, date_c, hour_c) {
+                var xmlhttp=false;
+                try {
+                        xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+                } catch (e) {
+                        try {
+                                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                        } catch (E) {
+                                xmlhttp = false;
+                        }
+                }
 
+                if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
+                        xmlhttp = new XMLHttpRequest();
+                }
+                ajax=xmlhttp;
+                ajax.open("POST", "/../ucm/inc/updateCalendar.php", true);
+                ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                ajax.send("calendar="+id+"&hour_c="+hour_c+"&date_c="+date_c);
+            }
+            function deleteCalendar (id) {
+                var xmlhttp=false;
+                try {
+                        xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+                } catch (e) {
+                        try {
+                                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                        } catch (E) {
+                                xmlhttp = false;
+                        }
+                }
 
+                if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
+                        xmlhttp = new XMLHttpRequest();
+                }
+                ajax=xmlhttp;
+                ajax.open("POST", "/../ucm/inc/deleteCalendar.php", true);
+                ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                ajax.send("calendar="+id);
+            }
 
-        function cargar_agendamiento(){ //Carga desde la BD los agendamientos correspondientes
+        function load_calendar(){ //Carga desde la BD los agendamientos correspondientes
             var xmlhttp=false;
             try {
                     xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
@@ -132,23 +196,15 @@
                 {
                     newJson = ajax.responseText;
                     var registros = eval('('+newJson+')');
-                    
-                    console.log(registros);
-                    
                     var calendar = new ddWeekCalendar('03-09-2013', '07-09-2013', '08:00', '20:00', 5);
-                     
                     for (var i=0;i<registros.length;i++){ //se recorre el arreglo 'registros'
                         var d1 = new Date(registros[i]['date']);
-
                         var fecha_agend=formatDate(d1);
                         var hora_agend=registros[i]['hour'];
                         var id_agend=registros[i]['exam_id'];
                         var tiempo_agend=registros[i]['exam_duration'];
                         var paciente_agend=registros[i]['patient'];
-
-                        
-                        //console.log(calendar);
-                        calendar.addEvent(fecha_agend, hora_agend, id_agend, tiempo_agend, paciente_agend);
+                        calendar.addEvent(fecha_agend, hora_agend, id_agend, tiempo_agend, paciente_agend); // Se cargan los agendamientos de la db en el newcalendar
 
                     }
                         REDIPS.drag.enableDrag('init');
@@ -200,6 +256,7 @@ function menu_contextual(){
                             divCortado = document.getElementById(element.context.id);
                             var daddy = divCortado.parentNode;
                             daddy.removeChild(divCortado);
+                            deleteCalendar(element.context.id);
                             alert("Deleteado");
                             
                         },
@@ -215,19 +272,15 @@ function menu_contextual(){
                             
 
                             if (estado=="cortado"){
-                                                              
+                                var cell = element.context.id;
+                                cell = cell.split("_");
+                                var date_c = cell[0], hour_c = cell[1];
                                 
-                                console.log(element.context.id);
                                 var posicion = document.getElementById(OldObject.id);
                                 movePositions(posicion.id,element.context.id);
-                                console.log(posicion);
-                                
-                                
-                                
+                                updateCalendar(OldObject.id, date_c, hour_c);
                                 estado = "indefinido";
                                 menu_contextual();
-
-                                
                             }else if(estado=="copiado"){
 
 
