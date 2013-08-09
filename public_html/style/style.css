@@ -10,6 +10,14 @@ root {
     display: block;
 }
 
+
+/* Estilo del detalle de agendamiento boostrap*/
+.popover-title {
+    color: black;
+}
+.popover-content {
+    color: black;
+}
 #calendar {
     border: 1px solid #93ADDF;
     color: #fff;

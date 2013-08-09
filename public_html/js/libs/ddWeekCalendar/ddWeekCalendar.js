@@ -51,7 +51,7 @@ function ddWeekCalendar(iDate, eDate, iTime, eTime, freq) {
         var id = day+'_'+time;
         var spaces = (duration/this.frecuency);
         h = (spaces - 1) * 20;
-        document.getElementById(id).innerHTML = '<div id="'+idEvent+'" class="drag" style="height:'+h+'px; width: 300px;">'+text+'</div>';
+        document.getElementById(id).innerHTML = '<div id="'+idEvent+'" class="drag" style="height:'+h+'px; width: 370px;">'+text+'</div>';
         for(var i=1;i<=spaces-1;i++) {
             tCursor.add(this.frecuency).minutes();
             id = day+'_'+timeToString(tCursor);
