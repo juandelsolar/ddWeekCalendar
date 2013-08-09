@@ -7,6 +7,12 @@
 // define redips_init variable
 var redipsInit;
 
+var redipsInit,			// define redipsInit variable
+	toggleAnimation,	// enable / disable animation
+	startPositions,		// remember initial positions of DIV elements
+	pos = {},			// initial positions of DIV elements
+	rd = REDIPS.drag;
+
 
 // redips initialization
 redipsInit = function () {
@@ -21,19 +27,30 @@ redipsInit = function () {
 	rd.init();
 	REDIPS.drag.hover.colorTr = 'red';
 	// only "smile" can be placed to the marked cell
+	//rd.enableDrag(false, '#drag div')     Permite desactivar el DRAG de los elementos con clase #drag
 	rd.dropMode = 'single';
+	REDIPS.drag.only.div.a1 = 'last';
 	//rd.enableDrag(false, rd.obj);
 	//rd.mark.exception.d8 = 'smile';
 	// prepare handlers
 	rd.event.clicked = function () {
 		////msg.innerHTML = 'Clicked';
+		$(function (e) {
+                    $('.drag').popover({
+                    title: 'Test',
+                    content: 'Hello Popover',
+                    placement: 'top'
+                });
+        });
 	};
 	rd.event.dblClicked = function () {
 		//msg.innerHTML = 'Dblclicked';
+		console.log('Doble Click');
 	};
 	rd.event.moved  = function () {
 		//msg.innerHTML = 'Moved';
 	};
+
 	rd.event.notMoved = function () {
 		//msg.innerHTML = 'Not moved';
 	};
@@ -78,7 +95,8 @@ redipsInit = function () {
 	rd.event.changed = function () {
 		// get target and source position (method returns positions as array)
 		var pos = rd.getPosition();
-		var id2 = event.target.id;
+		//var id2 = event.target.id;
+		var id2 = rd.obj.id;
 		document.getElementById(id2).style.opacity = '0.4'; // Transparencia al mover objeto
 
 		// Ilumina TD con la hora donde se esta arrastrando
@@ -143,7 +161,19 @@ function save(type) {
 		window.open('multiple-parameters.php?' + table_content, 'Mypop', 'width=350,height=260,scrollbars=yes');
 	}
 }
-
+//OriginalPosition=id div a cortar,TargetPosition=id celda a pegar
+function movePositions(OriginalPosition,TargetPosition){
+		//var id = rd.obj.id;
+		
+		var pos2 = rd.getPosition(TargetPosition); //Se obtiene la coordenada de la celda a pegar
+		
+		rd.moveObject({
+			id: OriginalPosition,			// DIV element id
+			target: pos2	// target position
+		});
+		//document.getElementById(OriginalPosition).style.background = '#6C6714';
+        document.getElementById(OriginalPosition).style.opacity = '1';
+}
 
 // add onload event listener
 if (window.addEventListener) {

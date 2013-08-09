@@ -30,6 +30,15 @@ root {
     border-collapse: collapse;
     opacity: 0.8;
 }
+.Taskbar {
+    background: #76A2CB;
+    position: fixed;
+    display: block;
+    width: 99%;
+    border: 0px solid #93ADDF;
+    border-collapse: collapse;
+    opacity: 0.8;
+}
 
 /*Dias de la semana - estatico*/ 
 .tdCalendar {
@@ -106,4 +115,21 @@ Events objects
     -moz-box-shadow: 4px 4px 8px #444;
     -webkit-box-shadow: 4px 4px 8px #444;
     box-shadow: 4px 4px 8px #444;
+}
+
+.button {
+    border: 2px solid #fff;
+    color: #fff;
+    font-family: Helvetica;
+    font-weight: bold;
+    font-size: 30px;
+    background: #8BB6DE;
+    text-align: center;
+    position: fixed;
+    border-collapse: collapse;
+    opacity: 0.4;
+    top: 300px;
+    border-radius: 20%;
+    color: #fff;
+    height: 200px;
 }
