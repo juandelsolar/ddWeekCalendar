@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript" src="js/libs/jquery-1.8.0/jquery9.1.js"></script>
+        <script type="text/javascript" src="js/libs/tool/jquery-1.8.1.min.js"></script>
+        <script type="text/javascript" src="js/libs/ddWeekCalendar/ddWeekCalendar.js"></script>
+        <script type="text/javascript" src="js/libs/ddWeekCalendar/datejs/build/date-es-CL.js"></script>
+        <script type="text/javascript" src="js/libs/redips/redips-drag-min.js"></script>
+        <link href="style/style.css" rel="stylesheet" type="text/css"/>
+        <script type="text/javascript" src="js/libs/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/libs/tool/jquery-ui.js"></script>
+        <script type="text/javascript" src="js/libs/tool/jquery.window.js"></script>
+        <link rel="stylesheet" href="js/libs/tool/jquery/themes/base/jquery-ui.css" type="text/css" media="screen">
+        <link rel="stylesheet" href="js/libs/bootstrap/css/bootstrap.min.css" type="text/css" media="screen">
+        <link rel="stylesheet" href="js/libs/tool/jwindow/jquery.window.css" type="text/css" media="screen">
+        <script type="text/javascript" src="js/libs/redips/script.js"></script>
+        <script src="js/libs/jquerycm/jquery.contextMenu.js" type="text/javascript" charset="utf-8"></script>
+        <link href="js/libs/jquerycm/jquery.contextMenu.css" rel="stylesheet" type="text/css"/>
+    <link rel="SHORTCUT ICON" href="image/favicon.ico"> 
+        <script>
+
+         var fechaId = 0; //TEMPORAL, indica fecha inicial
+         fecha_inicial='02-09-2013';
+         fecha_final='06-09-2013';
+         var OldObject, estado = "indefinido";
+         
+        $(document).ready(function(e) {
+            var calendar = new ddWeekCalendar(fecha_inicial, fecha_final, '08:00', '20:00', 5);
+            calendar.draw('calendar');
+            $(".tdCalendar2").click(function(e) {
+                if(e.srcElement.innerHTML == "")
+                {
+                    windows(e);
+
+                }
+            });
+
+                        
+            cargar_agendamiento();
+            load_schedule();
+
+            /* test cases */
+            calendar.addSchedule('06-09-2013', '09:00', '13:00', '#ffeeff', 'Doctor Del Solar')
+            calendar.addSchedule('06-09-2013', '13:00', '15:30', '#f00', 'Doctora Zuniga')
+            calendar.addEvent('06-09-2013', '10:00', 'hola', 30, 'Event')
+            calendar.addEvent('06-09-2013', '10:40', 2, 20, 'Event')
+            calendar.addEvent('06-09-2013', '11:20', 'd8', 20, 'Event')
+            //calendar.addEvent(fecha_agendamiento, '11:20', 'c3', 20, 'Event')
+
+            $("#hola").fadeIn(700);
+            $("#2").fadeIn(1400);
+            $("#d8").fadeIn(2100);
+
+            menu_contextual();
+
+        });
+
+        function windows(elem) {
+
+            var fecha_hora = elem.srcElement.id.split("_");
+            console.log(fecha_hora[0].split("-").join("/"));
+    
+            $.window.prepare({
+                dock: 'right',       // change the dock direction: 'left', 'right', 'top', 'bottom'
+                dockArea: $(".tdCalendar"), // set the dock area
+                animationSpeed: 200,  // set animation speed
+                minWinLong: 180,
+                minWinNarrow: 24, //the narrow dimension of minimized window
+                showLog: true,
+            });
+            $.window({
+                    title: "Insertar Agenda",
+                    url: "/../ucm/inc/modules/calendar/calendarForm.php?room=38&obj="+fecha_hora[0].split("-").join("/")+"-"+fecha_hora[1]+"-88",
+                    iframeRedirectCheckMsg: "Insertar Agenda",
+                    bookmarkable: false,
+                    x: 350,               
+                    y: 60,               
+                    height: 500,
+                    width: 670
+
+                    }
+                );
+        }
+        
+        function showButton(boton){ //TEMPORAL función que "mueve" los botones de cambio de semana
+            if (boton.style.opacity==1){
+
+                    boton.style.opacity=0.4;
+                    if (boton.id=="boton1"){
+                        boton.style.left="-25px";
+                    }else{
+                        boton.style.right="-25px";
+                    }
+
+                }else{
+                    boton.style.opacity=1;
+                    if (boton.id=="boton1"){
+                        boton.style.left="0px";
+                    }else{
+                        boton.style.right="0px";
+                    }
+                }
+            
+        }
+
+
+
+        function cargar_agendamiento(){ //Carga desde la BD los agendamientos correspondientes
+            var xmlhttp=false;
+            try {
+                    xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+            } catch (e) {
+                    try {
+                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    } catch (E) {
+                            xmlhttp = false;
+                    }
+            }
+
+            if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
+                    xmlhttp = new XMLHttpRequest();
+            }
+            ajax=xmlhttp;
+            
+            xmlhttp.onreadystatechange=function(){
+                if (ajax.readyState==4 && ajax.status==200)
+                {
+                    newJson = ajax.responseText;
+                    var registros = eval('('+newJson+')');
+                    
+                    console.log(registros);
+                    
+                    var calendar = new ddWeekCalendar('03-09-2013', '07-09-2013', '08:00', '20:00', 5);
+                     
+                    for (var i=0;i<registros.length;i++){ //se recorre el arreglo 'registros'
+                        var d1 = new Date(registros[i]['date']);
+
+                        var fecha_agend=formatDate(d1);
+                        var hora_agend=registros[i]['hour'];
+                        var id_agend=registros[i]['exam_id'];
+                        var tiempo_agend=registros[i]['exam_duration'];
+                        var paciente_agend=registros[i]['patient'];
+
+                        
+                        //console.log(calendar);
+                        calendar.addEvent(fecha_agend, hora_agend, id_agend, tiempo_agend, paciente_agend);
+
+                    }
+                        REDIPS.drag.enableDrag('init');
+                        menu_contextual();
+                }
+            }
+            ajax.open("POST", "/../ucm/inc/searchCalendar.php", true);
+            ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            //ajax.send();
+            ajax.send("date1="+fecha_inicial+"&date2="+fecha_final);     
+        }
+
+        function load_schedule(){
+            var xmlhttp=false;
+            try {
+                    xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+            } catch (e) {
+                    try {
+                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    } catch (E) {
+                            xmlhttp = false;
+                    }
+            }
+
+            if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
+                    xmlhttp = new XMLHttpRequest();
+            }
+            ajaxb=xmlhttp;
+            
+            xmlhttp.onreadystatechange=function(){
+                if (ajaxb.readyState==4 && ajaxb.status==200)
+                {
+                    newJsonb = ajaxb.responseText;
+                    var registrosb = eval('('+newJsonb+')');
+                    //console.log(registros[0]['color']);
+                    console.log(registrosb);
+                    
+                    var calendarb = new ddWeekCalendar('02-09-2013', '06-09-2013', '08:00', '20:00', 5);
+                     
+                    for (var i=0;i<registrosb.length;i++){ //se recorre el arreglo 'registros'
+                        var d1 = new Date(registrosb[i]['date']);
+
+                        var fecha=formatDate(d1);
+                        var color=registrosb[i]['color'];
+                        var doctor=registrosb[i]['user'];
+                        
+                        var hora_ini,hora_fin;
+                        if (registrosb[i]['mi_hour']!=""){
+                            hora_ini=registrosb[i]['mi_hour'];
+                            hora_fin=registrosb[i]['me_hour'];
+                        }else{
+                            hora_ini=registrosb[i]['ai_hour'];
+                            hora_fin=registrosb[i]['ae_hour'];
+                        }
+                           
+                        calendarb.addSchedule(fecha, hora_ini, hora_fin, '#'+color, 'Doctor '+doctor)
+
+                    }
+
+                }
+            }
+            ajaxb.open("POST", "/../ucm/inc/loadSchedule.php", true);
+            ajaxb.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            //ajax.send();
+            ajaxb.send("date1="+fecha_inicial+"&date2="+fecha_final);     
+        }
+
+        function menu_contextual(){
+                
+            //MENÚ OBJETO AGENDADO
+            $('.drag').contextMenu('context-menu-1', { //'drag' corresponde a la clase que podrá acceder al menú desplegable
+                '<img src="img/Copy.ico"></img> Copiar': {
+                    click: function(element) {  // element is the jquery obj clicked on when context menu launched
+
+                        if (OldObject!=null){
+                        document.getElementById(OldObject.id).style.opacity = '1'
+                        };
+
+                        OldObject = document.getElementById(element.context.id);
+                        estado = "copiado";
+                    },
+                    klass: "menu-item-1" // a custom css class for this menu item (usable for styling)
+                },
+                '<img src="img/Cut.ico"></img> Cortar': {
+                    click: function(element) {  // element is the jquery obj clicked on when context menu launched
+                        
+                        if (OldObject!=null){
+                        document.getElementById(OldObject.id).style.opacity = '1'
+                        //document.getElementById(OldObject.id).style.background = '#6C6714'; //El div cortado anteriormente vuelve a su color original
+                        };
+
+                        OldObject = document.getElementById(element.context.id);
+                        document.getElementById(OldObject.id).style.opacity = '0.5'
+                        //document.getElementById(element.context.id).style.background = '#99FF66'; //Cambiamos el color del div seleccionado
+                        
+                        estado = "cortado"
+                    },
+                    klass: "menu-item-2" // a custom css class for this menu item (usable for styling)
+                },
+                '<img src="img/Delete.ico"></img> Eliminar': {
+                    click: function(element) {  // element is the jquery obj clicked on when context menu launched
+                        divCortado = document.getElementById(element.context.id);
+                        var daddy = divCortado.parentNode;
+                        daddy.removeChild(divCortado);
+                        alert("Deleteado");
+                        
+                    },
+                    klass: "menu-item-3" // a custom css class for this menu item (usable for styling)
+                }
+               
+            });
+
+            //MENÚ CELDA
+            $('.tdCalendar2').contextMenu( 'context-menu-2', {  
+                '<img src="img/Paste.ico"></img> Pegar': {
+                    click: function(element) { // element is the jquery obj clicked on when context menu launched
+                        
+
+                        if (estado=="cortado"){
+                                                          
+                            
+                            console.log(element.context.id);
+                            var posicion = document.getElementById(OldObject.id);
+                            movePositions(posicion.id,element.context.id);
+                            console.log(posicion);
+                            
+                            
+                            
+                            estado = "indefinido";
+                            menu_contextual();
+
+                            
+                        }else if(estado=="copiado"){
+
+
+                            element.context.innerHTML=OldObject.outerHTML;
+
+                            REDIPS.drag.enableDrag('init');
+                            menu_contextual();
+
+
+                        }else{
+                            alert("No ha seleccionado elemento a pegar")
+                        };
+                
+                    },
+                    klass: "menu-item-1" // a custom css class for this menu item (usable for styling)
+                }
+            });
+
+        }
+        </script>
+    </head>
+    <body>
+        <div id="drag">
+            <!--<div class="buttons" style="display: block;">-->
+                <button id="boton1" class="button" onmouseover="showButton(this)" onmouseout="showButton(this)" onclick="LoadCalendar(-7)" style="left: -25px;">--</button>
+                <button id="boton2" class="button" onmouseover="showButton(this)" onmouseout="showButton(this)" onclick="LoadCalendar(7)" style="right: -25px;">>></button>
+            <!--</div>-->
+            <div id="calendar"></div>
+            <div id="events"></div>
+            
+        </div>
+    </body>
+</html>

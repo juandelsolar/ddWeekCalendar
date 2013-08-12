@@ -22,10 +22,29 @@
         <script>
 
          var fechaId = 0; //TEMPORAL, indica fecha inicial
-         fecha_inicial='02-09-2013';
-         fecha_final='06-09-2013';
+         var fecha_inicial,fecha_final;
+
+         function NowDate(fecha){
+
+                fechaId += fecha;
+                fecha_inicial = showDate(fechaId+21);
+                fecha_final = showDate(fechaId+25);
+                LoadCalendar();
+         //    REDIPS.drag.enableDrag('init');
+         REDIPS.drag.init();
+         }
+
+         NowDate(fechaId);
+
+         //LoadCalendar();
+
          var OldObject, estado = "indefinido";
+        function LoadCalendar(){
         $(document).ready(function(e) {
+
+            //fecha_inicial=showDate(0);
+            //fecha_final=showDate(4);
+            //console.log(fecha_inicial + " " + fecha_final);
             var calendar = new ddWeekCalendar(fecha_inicial, fecha_final, '08:00', '20:00', 5);
             calendar.draw('calendar');
             $(".tdCalendar2").click(function(e) {
@@ -41,21 +60,21 @@
             load_schedule();
 
             /* test cases */
-            calendar.addSchedule('06-09-2013', '09:00', '13:00', '#ffeeff', 'Doctor Del Solar')
+            /*calendar.addSchedule('06-09-2013', '09:00', '13:00', '#ffeeff', 'Doctor Del Solar')
             calendar.addSchedule('06-09-2013', '13:00', '15:30', '#f00', 'Doctora Zuniga')
             calendar.addEvent('06-09-2013', '10:00', 'hola', 30, 'Event')
             calendar.addEvent('06-09-2013', '10:40', 2, 20, 'Event')
-            calendar.addEvent('06-09-2013', '11:20', 'd8', 20, 'Event')
+            calendar.addEvent('06-09-2013', '11:20', 'd8', 20, 'Event')*/
             //calendar.addEvent(fecha_agendamiento, '11:20', 'c3', 20, 'Event')
 
-            $("#hola").fadeIn(700);
+            /*$("#hola").fadeIn(700);
             $("#2").fadeIn(1400);
-            $("#d8").fadeIn(2100);
+            $("#d8").fadeIn(2100);*/
 
             menu_contextual();
 
         });
-
+        }
         function windows(elem) {
 
             var fecha_hora = elem.srcElement.id.split("_");
@@ -101,7 +120,7 @@
                         boton.style.right="0px";
                     }
                 }
-            
+                //boton.style.zIndex="1";   
         }
 
 
@@ -131,7 +150,7 @@
                     
                     console.log(registros);
                     
-                    var calendar = new ddWeekCalendar('03-09-2013', '07-09-2013', '08:00', '20:00', 5);
+                    var calendar = new ddWeekCalendar(fecha_inicial, fecha_final, '08:00', '20:00', 5);
                      
                     for (var i=0;i<registros.length;i++){ //se recorre el arreglo 'registros'
                         var d1 = new Date(registros[i]['date']);
@@ -145,6 +164,7 @@
                         
                         //console.log(calendar);
                         calendar.addEvent(fecha_agend, hora_agend, id_agend, tiempo_agend, paciente_agend);
+                        $("#"+id_agend).fadeIn(1000);
 
                     }
                         REDIPS.drag.enableDrag('init');
@@ -182,7 +202,7 @@
                     //console.log(registros[0]['color']);
                     console.log(registrosb);
                     
-                    var calendarb = new ddWeekCalendar('02-09-2013', '06-09-2013', '08:00', '20:00', 5);
+                    var calendarb = new ddWeekCalendar(fecha_inicial, fecha_final, '08:00', '20:00', 5);
                      
                     for (var i=0;i<registrosb.length;i++){ //se recorre el arreglo 'registros'
                         var d1 = new Date(registrosb[i]['date']);
@@ -200,8 +220,16 @@
                             hora_fin=registrosb[i]['ae_hour'];
                         }
                            
-                        calendarb.addSchedule(fecha, hora_ini, hora_fin, '#'+color, 'Doctor '+doctor)
-
+                        if (registrosb[i]['mi_hour']!="" && registrosb[i]['ai_hour']!=""){
+                            hora_ini=registrosb[i]['mi_hour'];
+                            hora_fin=registrosb[i]['me_hour'];
+                            calendarb.addSchedule(fecha, hora_ini, hora_fin, '#'+color, 'Doctor '+doctor);
+                            hora_ini=registrosb[i]['ai_hour'];
+                            hora_fin=registrosb[i]['ae_hour'];
+                            calendarb.addSchedule(fecha, hora_ini, hora_fin, '#'+color, 'Doctor '+doctor);
+                        }else{
+                            calendarb.addSchedule(fecha, hora_ini, hora_fin, '#'+color, 'Doctor '+doctor);
+                        }
                     }
 
                 }
@@ -216,7 +244,7 @@
                 
             //MENÚ OBJETO AGENDADO
             $('.drag').contextMenu('context-menu-1', { //'drag' corresponde a la clase que podrá acceder al menú desplegable
-                '<img src="img/Copy.ico"></img> Copiar': {
+                /*'<img src="img/Copy.ico"></img> Copiar': {
                     click: function(element) {  // element is the jquery obj clicked on when context menu launched
 
                         if (OldObject!=null){
@@ -227,7 +255,7 @@
                         estado = "copiado";
                     },
                     klass: "menu-item-1" // a custom css class for this menu item (usable for styling)
-                },
+                },*/
                 '<img src="img/Cut.ico"></img> Cortar': {
                     click: function(element) {  // element is the jquery obj clicked on when context menu launched
                         
@@ -301,8 +329,8 @@
     <body>
         <div id="drag">
             <!--<div class="buttons" style="display: block;">-->
-                <button id="boton1" class="button" onmouseover="showButton(this)" onmouseout="showButton(this)" onclick="LoadCalendar(-7)" style="left: -25px;">--</button>
-                <button id="boton2" class="button" onmouseover="showButton(this)" onmouseout="showButton(this)" onclick="LoadCalendar(7)" style="right: -25px;">>></button>
+                <button id="boton1" class="button" onmouseover="showButton(this)" onmouseout="showButton(this)" onclick="NowDate(-7)" style="left: -25px;"><<</button>
+                <button id="boton2" class="button" onmouseover="showButton(this)" onmouseout="showButton(this)" onclick="NowDate(7)" style="right: -25px;">>></button>
             <!--</div>-->
             <div id="calendar"></div>
             <div id="events"></div>
