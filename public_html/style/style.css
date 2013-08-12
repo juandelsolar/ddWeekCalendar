@@ -124,7 +124,7 @@ Events objects
     -webkit-box-shadow: 4px 4px 8px #444;
     box-shadow: 4px 4px 8px #444;
 
-    display: none;
+    /*display: none;*/
 }
 
 .button {

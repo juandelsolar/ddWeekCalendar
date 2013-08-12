@@ -22,6 +22,7 @@
         <script>
 
          var fechaId = 0; //TEMPORAL, indica fecha inicial
+         var Week = 0; //"índice" de semanas; 0 es la actual
          var fecha_inicial,fecha_final;
 
          function NowDate(fecha){
@@ -30,21 +31,18 @@
                 fecha_inicial = showDate(fechaId+21);
                 fecha_final = showDate(fechaId+25);
                 LoadCalendar();
-         //    REDIPS.drag.enableDrag('init');
-         REDIPS.drag.init();
+
+                REDIPS.drag.init();
          }
 
          NowDate(fechaId);
 
-         //LoadCalendar();
+        var OldObject, estado = "indefinido";
+        var OldObject_Week; //Determina la semana a la cual pertenece el objeto cortado
 
-         var OldObject, estado = "indefinido";
         function LoadCalendar(){
         $(document).ready(function(e) {
 
-            //fecha_inicial=showDate(0);
-            //fecha_final=showDate(4);
-            //console.log(fecha_inicial + " " + fecha_final);
             var calendar = new ddWeekCalendar(fecha_inicial, fecha_final, '08:00', '20:00', 5);
             calendar.draw('calendar');
             $(".tdCalendar2").click(function(e) {
@@ -58,18 +56,6 @@
                         
             cargar_agendamiento();
             load_schedule();
-
-            /* test cases */
-            /*calendar.addSchedule('06-09-2013', '09:00', '13:00', '#ffeeff', 'Doctor Del Solar')
-            calendar.addSchedule('06-09-2013', '13:00', '15:30', '#f00', 'Doctora Zuniga')
-            calendar.addEvent('06-09-2013', '10:00', 'hola', 30, 'Event')
-            calendar.addEvent('06-09-2013', '10:40', 2, 20, 'Event')
-            calendar.addEvent('06-09-2013', '11:20', 'd8', 20, 'Event')*/
-            //calendar.addEvent(fecha_agendamiento, '11:20', 'c3', 20, 'Event')
-
-            /*$("#hola").fadeIn(700);
-            $("#2").fadeIn(1400);
-            $("#d8").fadeIn(2100);*/
 
             menu_contextual();
 
@@ -120,7 +106,6 @@
                         boton.style.right="0px";
                     }
                 }
-                //boton.style.zIndex="1";   
         }
 
 
@@ -164,7 +149,11 @@
                         
                         //console.log(calendar);
                         calendar.addEvent(fecha_agend, hora_agend, id_agend, tiempo_agend, paciente_agend);
-                        $("#"+id_agend).fadeIn(1000);
+                        //$("#"+id_agend).fadeIn(1000);
+
+                        if (OldObject!=null && OldObject.id==id_agend){
+                            document.getElementById(OldObject.id).style.opacity = '0.5';
+                        }
 
                     }
                         REDIPS.drag.enableDrag('init');
@@ -259,16 +248,15 @@
                 '<img src="img/Cut.ico"></img> Cortar': {
                     click: function(element) {  // element is the jquery obj clicked on when context menu launched
                         
-                        if (OldObject!=null){
-                        document.getElementById(OldObject.id).style.opacity = '1'
-                        //document.getElementById(OldObject.id).style.background = '#6C6714'; //El div cortado anteriormente vuelve a su color original
+                        if (OldObject!=null && OldObject_Week==Week){
+                            document.getElementById(OldObject.id).style.opacity = '1'
                         };
 
                         OldObject = document.getElementById(element.context.id);
                         document.getElementById(OldObject.id).style.opacity = '0.5'
-                        //document.getElementById(element.context.id).style.background = '#99FF66'; //Cambiamos el color del div seleccionado
-                        
+
                         estado = "cortado"
+                        OldObject_Week=Week;
                     },
                     klass: "menu-item-2" // a custom css class for this menu item (usable for styling)
                 },
@@ -295,10 +283,17 @@
                                                           
                             
                             console.log(element.context.id);
+                            console.log(OldObject);
                             var posicion = document.getElementById(OldObject.id);
-                            movePositions(posicion.id,element.context.id);
-                            console.log(posicion);
                             
+                            if (posicion==null){
+                                element.context.innerHTML=OldObject.outerHTML;
+                                document.getElementById(OldObject.id).style.opacity='1';
+                                REDIPS.drag.enableDrag('init');
+                            }else{
+                                movePositions(posicion.id,element.context.id);
+                                console.log(posicion);
+                            }
                             
                             
                             estado = "indefinido";
@@ -329,8 +324,8 @@
     <body>
         <div id="drag">
             <!--<div class="buttons" style="display: block;">-->
-                <button id="boton1" class="button" onmouseover="showButton(this)" onmouseout="showButton(this)" onclick="NowDate(-7)" style="left: -25px;"><<</button>
-                <button id="boton2" class="button" onmouseover="showButton(this)" onmouseout="showButton(this)" onclick="NowDate(7)" style="right: -25px;">>></button>
+                <button id="boton1" class="button" onmouseover="showButton(this)" onmouseout="showButton(this)" onclick="NowDate(-7); Week-=1;" style="left: -25px;"><<</button>
+                <button id="boton2" class="button" onmouseover="showButton(this)" onmouseout="showButton(this)" onclick="NowDate(7); Week+=1" style="right: -25px;">>></button>
             <!--</div>-->
             <div id="calendar"></div>
             <div id="events"></div>
